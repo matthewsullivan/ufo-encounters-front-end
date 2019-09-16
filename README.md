@@ -10,5 +10,5 @@ Open terminal at project root and execute
 
 ## Serve
 
-    $ export npm run start
+    $ npm run start
 
