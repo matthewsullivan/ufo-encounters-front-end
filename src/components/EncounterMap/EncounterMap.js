@@ -1,6 +1,7 @@
 import React from 'react';
 import RingLoader from 'react-spinners/RingLoader';
-import HeatMap from './components/HeatMap/HeatMap';
+
+import Encounters from './components/Encounters/Encounters';
 
 import { Scene } from '@esri/react-arcgis';
 
@@ -11,38 +12,21 @@ export default class EncounterMap extends React.Component {
         super(props);
 
         this.state = {
-            encounters: null,
             error: null,
-            isLoaded: false,
             map: null,
             view: null
         };
     }
 
-    componentDidMount() {
-        this.getEncounters();
-    }
-
     render() {
-        const { error, isLoaded } = this.state;
+        const { error, map } = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>;
         }
-        
-        if (!isLoaded && !this.state.map) {
-            return (
-                <div className={styles.loader}>
-                    <RingLoader
-                        color={'#f2f2f2'}
-                        sizeUnit={"px"}
-                        size={50}
-                        loading={!this.state.isLoaded}
-                    />
-                </div>
-            );
-        } else {
-            return (
+
+        return (
+            <div>
                 <Scene
                     mapProperties={{basemap: 'satellite'}}
                     onFail={this.handleMapFail}
@@ -59,26 +43,19 @@ export default class EncounterMap extends React.Component {
                         zoom: 0
                     }}
                 >
-                    <HeatMap />
+                    <Encounters />
                 </Scene>
-            );
-        }
-    }
 
-    /**
-     * Get Encounters
-     */
-    getEncounters = () => {
-        fetch('http://127.0.0.1:3000/api/v1/encounters')
-        .then(res => res.json())
-        .then(
-            (result) => {
-                this.setState({encounters: result.rows, isLoaded: true});
-            },
-            (error) => {
-                this.setState({error, isLoaded: true});
-            }
-      )
+                <div className={styles.loader} hidden={!!map}>
+                    <RingLoader
+                        color={'#f2f2f2'}
+                        sizeUnit={"px"}
+                        size={50}
+                        loading={!map}
+                    />
+                </div>
+            </div>
+        );
     }
 
     /**
