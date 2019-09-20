@@ -4,10 +4,8 @@ import EncounterMap from '../EncounterMap/EncounterMap';
 
 import './App.css';
 
-class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return <EncounterMap />;
   }
 }
-
-export default App;
