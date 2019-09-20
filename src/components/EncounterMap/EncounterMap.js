@@ -59,7 +59,7 @@ export default class EncounterMap extends React.Component {
     }
 
     /**
-     * Handle map load
+     * Handle Map Load
      * @param {object} map 
      * @param {object} view 
      */
@@ -68,7 +68,7 @@ export default class EncounterMap extends React.Component {
     }
 
     /**
-     * Handle map fail
+     * Handle Map Fail
      * @param {object} error 
      */
     handleMapFail = (error) => {

@@ -50,5 +50,35 @@ export default class BermudaTriangle extends React.Component {
     render() {
         return null;
     }
-
 }
+
+// /**
+//  * Render Layers
+//  */
+// renderLayers = () => {
+//     loadModules(['esri/layers/CSVLayer',]).then(([CSVLayer]) => {
+//       const renderer = {
+//         symbol: {
+//           type: "point-3d",
+//           symbolLayers: [
+//             {
+//               type: "icon",
+//               size: 4
+//             }
+//           ]
+//         },
+//         type: "simple"
+//       };
+        
+//       const layer = new CSVLayer({
+//         renderer: renderer,
+//         title: "Magnitude 2.5+ earthquakes from the last week",
+//         url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.csv"
+//       });
+
+//       this.setState({ layer });
+
+//       this.props.map.layers.add(layer);
+//   }).catch((error) => {
+//       console.error(error)
+//   });

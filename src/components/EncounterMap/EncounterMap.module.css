@@ -10,5 +10,16 @@
 }
 
 .loader[hidden] {
-    display: none;
+    animation: hideLoader 1s ease 0s 1 normal forwards;
 }
+
+@keyframes hideLoader {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        z-index: -1;
+        opacity: 0;
+    }
+  }
+  
