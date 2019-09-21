@@ -62,7 +62,15 @@ export default class Encounters extends React.Component {
           type: "simple-marker"
         };
 
-        for (let i = 0; i < encounters.length; i++) { 
+        const throttle = 25000;
+
+        let chunk = 2000;
+
+        const scheduler = (encounters, i) => {
+          if (i === encounters.length) {      
+            return;   
+          }
+
           const encounter = encounters[i];
 
           const point = {
@@ -84,13 +92,24 @@ export default class Encounters extends React.Component {
 
           this.props.view.graphics.add(pointGraphic);
 
-          if (i > 500) {
+          i++;
+
+          if(i >= chunk) {
+            chunk = chunk + i;
+
             this.props.status('');
 
-            break;
+            console.log('scheduled task');
+
+            setTimeout(scheduler, throttle, encounters, i);
+
+            return; 
           }
 
-        }
+          scheduler(encounters, i);
+        };
+
+        scheduler(encounters, 0);
     }).catch((error) => {
         this.props.status('Render Error');
 
