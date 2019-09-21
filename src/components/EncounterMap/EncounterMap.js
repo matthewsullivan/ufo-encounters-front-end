@@ -2,6 +2,7 @@ import React from 'react';
 import RingLoader from 'react-spinners/RingLoader';
 
 import Encounters from './components/Encounters/Encounters';
+import Progress from 'react-progressbar';
 
 import { Scene } from '@esri/react-arcgis';
 
@@ -14,12 +15,14 @@ export default class EncounterMap extends React.Component {
         this.state = {
             error: null,
             map: null,
+            percentage: null,
+            status: 'Loading Map',
             view: null
         };
     }
 
     render() {
-        const { error, map } = this.state;
+        const {error, percentage, status} = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -27,6 +30,12 @@ export default class EncounterMap extends React.Component {
 
         return (
             <div>
+                <Progress
+                    className={styles.progress}
+                    color={'rgba(242, 242, 242, 0.5)'}
+                    completed={parseInt(percentage)}
+                    hidden={status.length}
+                />
                 <Scene
                     mapProperties={{basemap: 'satellite'}}
                     onFail={this.handleMapFail}
@@ -34,7 +43,7 @@ export default class EncounterMap extends React.Component {
                     style={
                         {
                             color: '#f2f2f2',
-                            height: '100vh', 
+                            height: '100vh',
                             width: '100vw'
                         }
                     }
@@ -43,19 +52,31 @@ export default class EncounterMap extends React.Component {
                         zoom: 0
                     }}
                 >
-                    <Encounters />
+                    <Encounters 
+                        progress={this.getProgress} 
+                        status={this.handleStatus} 
+                    />
                 </Scene>
 
-                <div className={styles.loader} hidden={!!map}>
+                <div className={styles.loader} hidden={!status.length}>
                     <RingLoader
                         color={'#f2f2f2'}
-                        sizeUnit={"px"}
                         size={50}
-                        loading={!map}
+                        loading={status.length}
                     />
+
+                    <h1 className={styles.loader__title}>{status}</h1>
                 </div>
             </div>
         );
+    }
+
+    /**
+     * Get Progress
+     * @param {number} percentage 
+     */
+    getProgress = (percentage) => {
+        this.setState({percentage});
     }
 
     /**
@@ -73,5 +94,13 @@ export default class EncounterMap extends React.Component {
      */
     handleMapFail = (error) => {
         this.setState({error});
+    }
+
+    /**
+     * Handle Status
+     * @param {string} status 
+     */
+    handleStatus = (status) => {
+        this.setState({status});
     }
 }
