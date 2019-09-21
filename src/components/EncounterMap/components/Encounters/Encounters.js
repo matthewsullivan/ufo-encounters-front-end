@@ -62,9 +62,9 @@ export default class Encounters extends React.Component {
           type: "simple-marker"
         };
 
-        const throttle = 25000;
+        const throttle = 60000;
 
-        let chunk = 2000;
+        let chunk = 1000;
 
         const scheduler = (encounters, i) => {
           if (i === encounters.length) {      
@@ -97,9 +97,10 @@ export default class Encounters extends React.Component {
           if(i >= chunk) {
             chunk = chunk + i;
 
-            this.props.status('');
+            const percentage = ((i / encounters.length) * 100);
 
-            console.log('scheduled task');
+            this.props.progress(percentage);
+            this.props.status('');
 
             setTimeout(scheduler, throttle, encounters, i);
 

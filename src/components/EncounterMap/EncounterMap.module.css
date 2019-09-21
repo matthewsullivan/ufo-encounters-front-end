@@ -1,3 +1,13 @@
+.progress {
+    position: fixed;
+    width: 100vh;
+    z-index: 1;
+}
+
+.progress[hidden] {
+    display: none;
+}
+
 .loader {
     align-items: center;
     background: #111;
@@ -17,7 +27,7 @@
 .loader__title {
     font-size: 20px;
     color: #f2f2f2;
-    opacity: 0.7;
+    opacity: 0.6;
     text-transform: uppercase;
 }
 
