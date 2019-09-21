@@ -29,6 +29,8 @@ export default class Encounters extends React.Component {
      * Get Encounters
      */
     getEncounters = () => {
+      this.props.status('Gathering Encounters');
+
       fetch('http://127.0.0.1:3000/api/v1/encounters')
       .then(res => res.json())
       .then(
@@ -48,8 +50,13 @@ export default class Encounters extends React.Component {
      * @param {array} encounters
      */
     renderLayers = (encounters) => {
-      loadModules(['esri/Graphic',]).then(([Graphic]) => {
-
+      loadModules([
+        'esri/Graphic',
+        'esri/PopupTemplate'
+      ]).then(([
+        Graphic,
+        PopupTemplate
+      ]) => {
         const markerSymbol = {
           color: [226, 119, 40],
           type: "simple-marker"
@@ -64,20 +71,29 @@ export default class Encounters extends React.Component {
             type: "point"
           };
 
+          const popUp = new PopupTemplate({
+            title: `${encounter.city} - ${encounter.country} - ${encounter.date}`,
+            content: `Duration: ${encounter.duration_m} <br> Shape: ${encounter.shape} <br> Comments: ${encounter.comments}`
+          });
+
           const pointGraphic = new Graphic({
             geometry: point,
+            popupTemplate: popUp,
             symbol: markerSymbol
           });
 
           this.props.view.graphics.add(pointGraphic);
 
-          if (i > 5000) {
+          if (i > 500) {
+            this.props.status('');
+
             break;
           }
 
         }
-
     }).catch((error) => {
+        this.props.status('Render Error');
+
         console.error(error)
     });
   }

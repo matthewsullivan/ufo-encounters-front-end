@@ -14,12 +14,13 @@ export default class EncounterMap extends React.Component {
         this.state = {
             error: null,
             map: null,
+            status: 'Loading Map',
             view: null
         };
     }
 
     render() {
-        const { error, map } = this.state;
+        const { error, status} = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -43,16 +44,17 @@ export default class EncounterMap extends React.Component {
                         zoom: 0
                     }}
                 >
-                    <Encounters />
+                    <Encounters status={this.handleStatus} />
                 </Scene>
 
-                <div className={styles.loader} hidden={!!map}>
+                <div className={styles.loader} hidden={!status.length}>
                     <RingLoader
                         color={'#f2f2f2'}
-                        sizeUnit={"px"}
                         size={50}
-                        loading={!map}
+                        loading={status.length}
                     />
+
+                    <h1 className={styles.loader__title}>{status}</h1>
                 </div>
             </div>
         );
@@ -73,5 +75,13 @@ export default class EncounterMap extends React.Component {
      */
     handleMapFail = (error) => {
         this.setState({error});
+    }
+
+    /**
+     * Handle Status
+     * @param {string} status 
+     */
+    handleStatus = (status) => {
+        this.setState({status});
     }
 }
