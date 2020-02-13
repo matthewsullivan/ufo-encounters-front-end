@@ -62,12 +62,14 @@ export default class Encounters extends React.Component {
           type: "simple-marker"
         };
 
-        const throttle = 60000;
+        const throttle = 2000;
 
         let chunk = 1000;
 
         const scheduler = (encounters, i) => {
-          if (i === encounters.length) {      
+          if (i === encounters.length) {    
+            this.props.progress(100);
+
             return;   
           }
 
@@ -97,12 +99,13 @@ export default class Encounters extends React.Component {
           if(i >= chunk) {
             chunk = chunk + i;
 
-            const percentage = ((i / encounters.length) * 100);
-
+            const percentage = (i / encounters.length) * 100;
+            
             this.props.progress(percentage);
             this.props.status('');
 
             setTimeout(scheduler, throttle, encounters, i);
+
 
             return; 
           }
@@ -110,11 +113,10 @@ export default class Encounters extends React.Component {
           scheduler(encounters, i);
         };
 
+
         scheduler(encounters, 0);
     }).catch((error) => {
         this.props.status('Render Error');
-
-        console.error(error)
     });
   }
 
