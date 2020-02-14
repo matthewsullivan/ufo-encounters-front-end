@@ -40,10 +40,10 @@ const styles = (theme) => ({
   menuButton: {
     color: '#fff',
     height: 48,
-    width: 48,
     position: 'absolute',
     right: 16,
     top: 0,
+    width: 48,
     zIndex: 1,
   },
 });

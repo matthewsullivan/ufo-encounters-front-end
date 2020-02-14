@@ -10,7 +10,6 @@ import styles from './EncounterMap.module.css';
 
 export default class EncounterMap extends React.Component {
     state = {
-        basemap: this.props,
         error: null,
         map: null,
         percentage: null,
@@ -18,14 +17,9 @@ export default class EncounterMap extends React.Component {
         view: null
     }
 
-    static getDerivedStateFromProps(nextProps) {
-        return {
-            basemap: nextProps.basemap,
-        };
-    }
-
     render() {
-        const {basemap, error, percentage, status} = this.state;
+        const {basemap} = this.props;
+        const {error, percentage, status} = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>;
