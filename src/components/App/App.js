@@ -27,32 +27,24 @@ import classNames from 'classnames';
 
 const styles = (theme) => ({
   drawer: {
-    width: 240,
     flexShrink: 0,
+    width: 240,
   },
   drawerPaper: {
     width: 240,
   },
   drawerHeader: {
-    display: 'flex',
     alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'flex-start',
     padding: '0 8px',
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
   },
 });
 
 class App extends React.Component {
   state = {
     open: false,
-  };
-
-  handleDrawerClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleDrawerOpen = () => {
-    this.setState({ open: true });
   };
 
   render() {
@@ -107,6 +99,20 @@ class App extends React.Component {
       </>
     );
   }
+
+  /**
+   * Handle Drawer Close
+   */
+  handleDrawerClose = () => {
+    this.setState({ open: false });
+  };
+
+  /**
+   * Handle Drawer Open
+   */
+  handleDrawerOpen = () => {
+    this.setState({ open: true });
+  };
 }
 
 App.propTypes = {
