@@ -9,20 +9,23 @@ import { Scene } from '@esri/react-arcgis';
 import styles from './EncounterMap.module.css';
 
 export default class EncounterMap extends React.Component {
-    constructor(props) {
-        super(props);
+    state = {
+        basemap: this.props,
+        error: null,
+        map: null,
+        percentage: null,
+        status: 'Loading Map',
+        view: null
+    }
 
-        this.state = {
-            error: null,
-            map: null,
-            percentage: null,
-            status: 'Loading Map',
-            view: null
+    static getDerivedStateFromProps(nextProps) {
+        return {
+            basemap: nextProps.basemap,
         };
     }
 
     render() {
-        const {error, percentage, status} = this.state;
+        const {basemap, error, percentage, status} = this.state;
 
         if (error) {
             return <div>Error: {error.message}</div>;
@@ -36,8 +39,9 @@ export default class EncounterMap extends React.Component {
                     completed={parseInt(percentage)}
                     hidden={status.length}
                 />
+
                 <Scene
-                    mapProperties={{basemap: 'satellite'}}
+                    mapProperties={{basemap: basemap}}
                     onFail={this.handleMapFail}
                     onLoad={this.handleMapLoad}
                     style={
@@ -47,12 +51,14 @@ export default class EncounterMap extends React.Component {
                             width: '100vw'
                         }
                     }
-                    viewProperties={{
-                        center: [56.1304, 106.3468],
-                        zoom: 0
-                    }}
+                    viewProperties={
+                        {
+                            center: [56.1304, 106.3468],
+                            zoom: 0
+                        }
+                    }
                 >
-                    <Encounters 
+                    <Encounters
                         progress={this.getProgress} 
                         status={this.handleStatus} 
                     />

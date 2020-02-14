@@ -3,15 +3,11 @@ import React from 'react';
 import { loadModules } from '@esri/react-arcgis';
 
 export default class Encounters extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-          encounters: null,
-          error: null,
-          layer: null
-      };
-    }
+  state = {
+      encounters: null,
+      error: null,
+      layer: null
+  }
 
     componentDidMount() {
       this.getEncounters();

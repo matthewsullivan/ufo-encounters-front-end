@@ -7,13 +7,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Switch from '@material-ui/core/Switch';
 
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
+import PublicIcon from '@material-ui/icons/Public';
 
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 
 import EncounterMap from '../EncounterMap/EncounterMap';
 
@@ -39,11 +39,11 @@ const styles = (theme) => ({
 
   menuButton: {
     color: '#fff',
-    position: 'absolute',
     height: 48,
     width: 48,
-    top: 0,
+    position: 'absolute',
     right: 16,
+    top: 0,
     zIndex: 1,
   },
 });
@@ -51,11 +51,12 @@ const styles = (theme) => ({
 class App extends React.Component {
   state = {
     open: false,
+    mapType: 'streets',
   };
 
   render() {
-    const { classes } = this.props;
-    const { open } = this.state;
+    const {classes} = this.props;
+    const {open, mapType} = this.state;
 
     return (
       <>
@@ -84,28 +85,32 @@ class App extends React.Component {
           </div>
           <Divider />
           <List>
-            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
+            <ListItem>
+              <ListItemIcon> 
+                <PublicIcon/> 
+              </ListItemIcon>
+              <ListItemText primary="Satellite" />
+              <Switch
+                checked={this.state.checkedA}
+                onChange={this.handleChange()}
+                value="satellite"
+              />
+            </ListItem>
           </List>
         </Drawer>
 
-        <EncounterMap />;
+        <EncounterMap basemap={mapType}/>;
       </>
     );
   }
+
+
+  /**
+   * Handle Change
+   */
+  handleChange = () => event => {
+    this.setState({ mapType: event.target.checked ? 'satellite' : 'streets'});
+  };
 
   /**
    * Handle Drawer Close
@@ -120,6 +125,7 @@ class App extends React.Component {
   handleDrawerOpen = () => {
     this.setState({ open: true });
   };
+  
 }
 
 App.propTypes = {
