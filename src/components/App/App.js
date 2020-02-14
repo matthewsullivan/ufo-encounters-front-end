@@ -8,13 +8,10 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -23,15 +20,14 @@ import EncounterMap from '../EncounterMap/EncounterMap';
 import './App.css';
 
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 const styles = (theme) => ({
   drawer: {
     flexShrink: 0,
-    width: 240,
+    width: 304,
   },
   drawerPaper: {
-    width: 240,
+    width: 304,
   },
   drawerHeader: {
     alignItems: 'center',
@@ -39,6 +35,16 @@ const styles = (theme) => ({
     justifyContent: 'flex-start',
     padding: '0 8px',
     ...theme.mixins.toolbar,
+  },
+
+  menuButton: {
+    color: '#fff',
+    position: 'absolute',
+    height: 48,
+    width: 48,
+    top: 0,
+    right: 16,
+    zIndex: 1,
   },
 });
 
@@ -48,19 +54,20 @@ class App extends React.Component {
   };
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const { open } = this.state;
 
     return (
       <>
         <IconButton
           aria-label="Open drawer"
-          className={classNames(classes.menuButton)}
+          className={classes.menuButton}
           color="inherit"
           onClick={this.handleDrawerOpen}
         >
           <MenuIcon />
         </IconButton>
+
         <Drawer
           anchor="right"
           className={classes.drawer}
@@ -72,7 +79,7 @@ class App extends React.Component {
         >
           <div className={classes.drawerHeader}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              <ChevronRightIcon />
             </IconButton>
           </div>
           <Divider />
